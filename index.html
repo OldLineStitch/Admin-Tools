@@ -1,0 +1,1196 @@
+<div id="ols-admin-estimator">
+  <style>
+    #ols-admin-estimator {
+      --sage: #8F9D83;
+      --sage-dark: #68765F;
+      --terracotta: #C9856B;
+      --terracotta-dark: #A96751;
+      --linen: #F7F1E8;
+      --oatmeal: #E8DDCF;
+      --ink: #3E3A35;
+      --muted: #746E66;
+      --white: #FFFDF9;
+      --warning: #B8823A;
+      --danger: #9B4A3F;
+      --good: #68765F;
+
+      font-family: Georgia, "Times New Roman", serif;
+      background: var(--linen);
+      color: var(--ink);
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 26px;
+      border-radius: 22px;
+      border: 1px solid var(--oatmeal);
+      box-shadow: 0 10px 30px rgba(62, 58, 53, 0.12);
+    }
+
+    #ols-admin-estimator * { box-sizing: border-box; }
+
+    #ols-admin-estimator h2 {
+      text-align: center;
+      color: var(--sage-dark);
+      font-size: 32px;
+      margin: 0 0 8px;
+    }
+
+    #ols-admin-estimator .subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    #ols-admin-estimator .section {
+      background: var(--white);
+      border: 1px solid var(--oatmeal);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    #ols-admin-estimator .section-title {
+      color: var(--terracotta-dark);
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+
+    #ols-admin-estimator .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    #ols-admin-estimator .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    #ols-admin-estimator label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    #ols-admin-estimator input,
+    #ols-admin-estimator select,
+    #ols-admin-estimator textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--oatmeal);
+      background: #fff;
+      color: var(--ink);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    #ols-admin-estimator textarea {
+      min-height: 86px;
+      resize: vertical;
+    }
+
+    #ols-admin-estimator input:focus,
+    #ols-admin-estimator select:focus,
+    #ols-admin-estimator textarea:focus {
+      outline: none;
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(143, 157, 131, 0.18);
+    }
+
+    #ols-admin-estimator .note {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+      background: #fbf7f1;
+      border-left: 4px solid var(--sage);
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin-top: 8px;
+    }
+
+    #ols-admin-estimator button {
+      border: none;
+      border-radius: 999px;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+      margin: 5px 5px 5px 0;
+    }
+
+    #ols-admin-estimator .primary {
+      background: var(--sage);
+      color: white;
+    }
+
+    #ols-admin-estimator .primary:hover {
+      background: var(--sage-dark);
+    }
+
+    #ols-admin-estimator .secondary {
+      background: var(--oatmeal);
+      color: var(--ink);
+    }
+
+    #ols-admin-estimator .danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    #ols-admin-estimator details {
+      background: #fbf7f1;
+      border: 1px solid var(--oatmeal);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    #ols-admin-estimator summary {
+      cursor: pointer;
+      color: var(--sage-dark);
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    #ols-admin-estimator #adminResult {
+      display: none;
+      margin-top: 24px;
+    }
+
+    #ols-admin-estimator .result-card {
+      background: #fff;
+      border: 2px solid var(--sage);
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    #ols-admin-estimator .big-number {
+      font-size: 34px;
+      color: var(--terracotta-dark);
+      font-weight: bold;
+      text-align: center;
+      margin: 8px 0;
+    }
+
+    #ols-admin-estimator table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    #ols-admin-estimator th,
+    #ols-admin-estimator td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid var(--oatmeal);
+    }
+
+    #ols-admin-estimator th {
+      color: var(--sage-dark);
+      background: var(--linen);
+    }
+
+    #ols-admin-estimator .flag {
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+
+    #ols-admin-estimator .excellent { background: #eef2ea; color: var(--good); }
+    #ols-admin-estimator .caution { background: #fff5e6; color: var(--warning); }
+    #ols-admin-estimator .requote { background: #f7e7e3; color: var(--danger); }
+
+    @media (max-width: 800px) {
+      #ols-admin-estimator .grid,
+      #ols-admin-estimator .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      #ols-admin-estimator {
+        padding: 18px;
+      }
+    }
+  </style>
+
+  <h2>Old Line Stitch Admin Quote Builder</h2>
+  <div class="subtitle">
+    Internal pricing calculator for embroidery, DTF, specialty items, rush orders, bulk discounts, labor, margin, and profit.
+  </div>
+
+  <details open>
+    <summary>Pricing Settings — Editable Admin Controls</summary>
+
+    <div class="section">
+      <div class="section-title">Embroidery Stitch Rates</div>
+      <div class="grid">
+        <div>
+          <label>1–3 Colors Rate / 1,000 Stitches</label>
+          <input type="number" id="rateFewColors" value="3.00" step="0.01">
+        </div>
+        <div>
+          <label>4–9 Colors Rate / 1,000 Stitches</label>
+          <input type="number" id="rateMidColors" value="3.50" step="0.01">
+        </div>
+        <div>
+          <label>10+ Colors Rate / 1,000 Stitches</label>
+          <input type="number" id="rateManyColors" value="4.00" step="0.01">
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label>Minimum Embroidery Charge Each</label>
+          <input type="number" id="minEmbroidery" value="12" step="0.01">
+        </div>
+        <div>
+          <label>Digitizing Fee Default</label>
+          <input type="number" id="digitizingFeeDefault" value="45" step="0.01">
+        </div>
+        <div>
+          <label>Thread / Stabilizer Supply Cost Each</label>
+          <input type="number" id="embroiderySupplyCost" value="1.25" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">DTF Markups + Labor</div>
+      <div class="grid">
+        <div>
+          <label>Small DTF Markup %</label>
+          <input type="number" id="dtfMarkupSmall" value="100" step="1">
+        </div>
+        <div>
+          <label>Medium DTF Markup %</label>
+          <input type="number" id="dtfMarkupMedium" value="90" step="1">
+        </div>
+        <div>
+          <label>Large DTF Markup %</label>
+          <input type="number" id="dtfMarkupLarge" value="80" step="1">
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label>Oversized DTF Markup %</label>
+          <input type="number" id="dtfMarkupOversized" value="70" step="1">
+        </div>
+        <div>
+          <label>Hat / Specialty DTF Markup %</label>
+          <input type="number" id="dtfMarkupSpecialty" value="100" step="1">
+        </div>
+        <div>
+          <label>DTF Supply Cost Each</label>
+          <input type="number" id="dtfSupplyCost" value="0.75" step="0.01">
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label>DTF Labor Each — Small Order</label>
+          <input type="number" id="dtfLaborSmallOrder" value="5" step="0.01">
+        </div>
+        <div>
+          <label>DTF Labor Each — Medium Order</label>
+          <input type="number" id="dtfLaborMediumOrder" value="3.50" step="0.01">
+        </div>
+        <div>
+          <label>DTF Labor Each — Large Order</label>
+          <input type="number" id="dtfLaborLargeOrder" value="2.25" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Labor, Rush, Discounts, Tax</div>
+      <div class="grid">
+        <div>
+          <label>Embroidery Labor Each</label>
+          <input type="number" id="embroideryLaborEach" value="3" step="0.01">
+        </div>
+        <div>
+          <label>Packaging Labor Each</label>
+          <input type="number" id="packagingLaborEach" value="1.25" step="0.01">
+        </div>
+        <div>
+          <label>Hourly Labor Cost for Profit Calc</label>
+          <input type="number" id="hourlyLaborCost" value="25" step="0.01">
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label>Rush Fee</label>
+          <input type="number" id="rushFee" value="50" step="0.01">
+        </div>
+        <div>
+          <label>48-Hour Additional Fee</label>
+          <input type="number" id="expedite48Fee" value="75" step="0.01">
+        </div>
+        <div>
+          <label>Maryland Sales Tax %</label>
+          <input type="number" id="taxRate" value="6" step="0.01">
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label>25+ Bulk Discount %</label>
+          <input type="number" id="discount25" value="5" step="0.01">
+        </div>
+        <div>
+          <label>50+ Bulk Discount %</label>
+          <input type="number" id="discount50" value="7" step="0.01">
+        </div>
+        <div>
+          <label>100+ Bulk Discount %</label>
+          <input type="number" id="discount100" value="10" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Minimums + Specialty Defaults</div>
+      <div class="grid">
+        <div>
+          <label>1 Item Minimum</label>
+          <input type="number" id="minOneItem" value="35" step="0.01">
+        </div>
+        <div>
+          <label>2–5 Item Minimum</label>
+          <input type="number" id="minSmallOrder" value="50" step="0.01">
+        </div>
+        <div>
+          <label>Specialty Item Minimum</label>
+          <input type="number" id="minSpecialty" value="75" step="0.01">
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label>Puffy Jacket Handling Each</label>
+          <input type="number" id="feePuffy" value="15" step="0.01">
+        </div>
+        <div>
+          <label>Golf Bag Handling Each</label>
+          <input type="number" id="feeGolfBag" value="30" step="0.01">
+        </div>
+        <div>
+          <label>Saddle Pad Handling Each</label>
+          <input type="number" id="feeSaddlePad" value="30" step="0.01">
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label>Duffel / Boat Bag Handling Each</label>
+          <input type="number" id="feeDuffel" value="12" step="0.01">
+        </div>
+        <div>
+          <label>Canvas / Tote Handling Each</label>
+          <input type="number" id="feeTote" value="6" step="0.01">
+        </div>
+        <div>
+          <label>Other Specialty Handling Each</label>
+          <input type="number" id="feeOtherSpecialty" value="18" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <button class="secondary" onclick="saveOLSAdminSettings()">Save Pricing Settings</button>
+      <button class="secondary" onclick="loadOLSAdminSettings()">Reload Saved Settings</button>
+      <button class="danger" onclick="resetOLSAdminSettings()">Reset Defaults</button>
+      <div class="note">
+        Settings are saved in this browser only using local storage. This makes it easy to update your pricing without touching code.
+      </div>
+    </div>
+  </details>
+
+  <div class="section">
+    <div class="section-title">1. Project + Customer Info</div>
+    <div class="grid">
+      <div>
+        <label>Customer Name</label>
+        <input type="text" id="customerName" placeholder="Customer / organization">
+      </div>
+      <div>
+        <label>Quote Date</label>
+        <input type="date" id="quoteDate">
+      </div>
+      <div>
+        <label>Due Date</label>
+        <input type="date" id="dueDate">
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Sales Channel</label>
+        <select id="salesChannel">
+          <option>Website</option>
+          <option>Referral</option>
+          <option>Repeat Customer</option>
+          <option>Team Order</option>
+          <option>Event</option>
+          <option>Wholesale / Partner</option>
+        </select>
+      </div>
+      <div>
+        <label>Quantity</label>
+        <input type="number" id="qty" value="12" min="1">
+      </div>
+      <div>
+        <label>Is this a reorder?</label>
+        <select id="isReorder">
+          <option value="no">No</option>
+          <option value="yes">Yes — existing file/design</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Blank / Item Cost</div>
+
+    <div class="grid">
+      <div>
+        <label>Item Type</label>
+        <select id="itemType">
+          <option value="standard">Standard Garment</option>
+          <option value="premium">Premium Garment</option>
+          <option value="hat">Hat</option>
+          <option value="tote">Canvas / Tote Bag</option>
+          <option value="duffel">Duffel / Boat Bag / Canvas Bag</option>
+          <option value="jacket">Jacket / Outerwear</option>
+          <option value="puffy">Puffy Jacket</option>
+          <option value="golfBag">Golf Bag</option>
+          <option value="saddlePad">Saddle Pad</option>
+          <option value="customerProvided">Customer-Provided Item</option>
+          <option value="otherSpecialty">Other Specialty / Weird Item</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Blank Cost Each</label>
+        <input type="number" id="blankCostEach" value="8" step="0.01">
+      </div>
+
+      <div>
+        <label>Blank Markup %</label>
+        <input type="number" id="blankMarkup" value="100" step="1">
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Customer Provided?</label>
+        <select id="customerProvided">
+          <option value="no">No — OLS provides item</option>
+          <option value="yes">Yes — customer provides item</option>
+        </select>
+      </div>
+      <div>
+        <label>Customer-Supplied Risk Markup %</label>
+        <input type="number" id="customerRiskMarkup" value="20" step="1">
+      </div>
+      <div>
+        <label>Manual Blank Retail Override Each</label>
+        <input type="number" id="blankRetailOverride" value="0" step="0.01">
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Embroidery Pricing</div>
+
+    <div class="grid">
+      <div>
+        <label>Use Embroidery?</label>
+        <select id="useEmbroidery">
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+      <div>
+        <label>Stitch Count</label>
+        <input type="number" id="stitchCount" value="8000" step="100">
+      </div>
+      <div>
+        <label>Number of Colors</label>
+        <input type="number" id="colorCount" value="3" min="1">
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Embroidery Location</label>
+        <select id="embroideryLocation">
+          <option value="leftChest">Left Chest / Standard</option>
+          <option value="hatFront">Hat Front</option>
+          <option value="hatSide">Hat Side</option>
+          <option value="sleeve">Sleeve</option>
+          <option value="jacketBack">Jacket Back / Large Back</option>
+          <option value="bag">Bag / Tote</option>
+          <option value="specialty">Specialty Placement</option>
+          <option value="highRisk">High-Risk Placement</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Embroidery Complexity</label>
+        <select id="embroideryComplexity">
+          <option value="simple">Simple</option>
+          <option value="moderate">Moderate</option>
+          <option value="complex">Complex</option>
+          <option value="nightmare">Nightmare / Manual Review</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Digitizing Fee</label>
+        <input type="number" id="digitizingFee" value="45" step="0.01">
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. DTF / Printing Pricing</div>
+
+    <div class="grid">
+      <div>
+        <label>Use DTF?</label>
+        <select id="useDTF">
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+
+      <div>
+        <label>DTF Size</label>
+        <select id="dtfSize">
+          <option value="small">Small Logo</option>
+          <option value="medium">Medium Design</option>
+          <option value="large">Large Front / Back</option>
+          <option value="oversized">Oversized</option>
+          <option value="specialty">Hat / Sleeve / Specialty</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Number of Print Locations</label>
+        <input type="number" id="dtfLocations" value="1" min="1">
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Transfer Express Cost Each / Location</label>
+        <input type="number" id="dtfTransferCost" value="5.50" step="0.01">
+      </div>
+      <div>
+        <label>Manual DTF Retail Override Each</label>
+        <input type="number" id="dtfRetailOverride" value="0" step="0.01">
+      </div>
+      <div>
+        <label>DTF Notes</label>
+        <input type="text" id="dtfNotes" placeholder="Example: large back + sleeve logo">
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5. Artwork, Rush, Add-ons, Adjustments</div>
+
+    <div class="grid">
+      <div>
+        <label>Artwork Quality</label>
+        <select id="artworkQuality">
+          <option value="ready">Print-ready / digitizing-ready</option>
+          <option value="minor">Minor cleanup</option>
+          <option value="major">Major cleanup</option>
+          <option value="redraw">Redraw required</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Rush</label>
+        <select id="rushType">
+          <option value="standard">Standard Timeline</option>
+          <option value="rush">Rush — flat fee</option>
+          <option value="48hr">Within 48 hours</option>
+          <option value="sameDay">Same-day / emergency</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Manual Adjustment + / -</label>
+        <input type="number" id="manualAdjustment" value="0" step="0.01">
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Artwork Fee Override</label>
+        <input type="number" id="artworkFeeOverride" value="0" step="0.01">
+      </div>
+      <div>
+        <label>Extra Setup / Handling Fee</label>
+        <input type="number" id="extraSetupFee" value="0" step="0.01">
+      </div>
+      <div>
+        <label>Estimated Production Hours</label>
+        <input type="number" id="productionHours" value="1.5" step="0.25">
+      </div>
+    </div>
+
+    <label>Internal Notes</label>
+    <textarea id="internalNotes" placeholder="Add production notes, placement concerns, customer context, etc."></textarea>
+  </div>
+
+  <button class="primary" onclick="calculateOLSAdminQuote()">Calculate Admin Quote</button>
+
+  <div id="adminResult">
+    <div class="result-card">
+      <div class="section-title">Customer Quote</div>
+      <div class="big-number" id="customerQuoteTotal"></div>
+      <div id="quotePerItem" style="text-align:center; color: var(--muted);"></div>
+      <div id="marginFlag"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="section-title">Detailed Breakdown</div>
+      <div id="breakdownTable"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="section-title">Profit + Margin</div>
+      <div id="profitTable"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="section-title">Auto-Generated Customer Quote Summary</div>
+      <textarea id="customerSummary" readonly></textarea>
+      <button class="secondary" onclick="copyCustomerSummary()">Copy Summary</button>
+    </div>
+
+    <div class="result-card">
+      <div class="section-title">Warnings + Internal Notes</div>
+      <div id="warningNotes"></div>
+    </div>
+  </div>
+
+  <script>
+    const OLS_SETTING_IDS = [
+      "rateFewColors", "rateMidColors", "rateManyColors", "minEmbroidery",
+      "digitizingFeeDefault", "embroiderySupplyCost",
+      "dtfMarkupSmall", "dtfMarkupMedium", "dtfMarkupLarge", "dtfMarkupOversized",
+      "dtfMarkupSpecialty", "dtfSupplyCost",
+      "dtfLaborSmallOrder", "dtfLaborMediumOrder", "dtfLaborLargeOrder",
+      "embroideryLaborEach", "packagingLaborEach", "hourlyLaborCost",
+      "rushFee", "expedite48Fee", "taxRate",
+      "discount25", "discount50", "discount100",
+      "minOneItem", "minSmallOrder", "minSpecialty",
+      "feePuffy", "feeGolfBag", "feeSaddlePad", "feeDuffel", "feeTote", "feeOtherSpecialty"
+    ];
+
+    function money(value) {
+      return "$" + Number(value || 0).toFixed(2);
+    }
+
+    function num(id) {
+      return parseFloat(document.getElementById(id).value) || 0;
+    }
+
+    function val(id) {
+      return document.getElementById(id).value;
+    }
+
+    function saveOLSAdminSettings() {
+      const settings = {};
+      OLS_SETTING_IDS.forEach(id => settings[id] = document.getElementById(id).value);
+      localStorage.setItem("olsAdminPricingSettings", JSON.stringify(settings));
+      alert("Pricing settings saved.");
+    }
+
+    function loadOLSAdminSettings() {
+      const saved = localStorage.getItem("olsAdminPricingSettings");
+      if (!saved) return;
+      const settings = JSON.parse(saved);
+      OLS_SETTING_IDS.forEach(id => {
+        if (settings[id] !== undefined && document.getElementById(id)) {
+          document.getElementById(id).value = settings[id];
+        }
+      });
+    }
+
+    function resetOLSAdminSettings() {
+      localStorage.removeItem("olsAdminPricingSettings");
+      alert("Saved settings cleared. Refresh the page to return to defaults.");
+    }
+
+    function getItemDifficultyMultiplier(itemType) {
+      const map = {
+        standard: 1.0,
+        premium: 1.1,
+        hat: 1.15,
+        tote: 1.25,
+        duffel: 1.35,
+        jacket: 1.25,
+        puffy: 1.5,
+        golfBag: 1.6,
+        saddlePad: 1.6,
+        customerProvided: 1.2,
+        otherSpecialty: 1.45
+      };
+      return map[itemType] || 1.0;
+    }
+
+    function getSpecialtyFeeEach(itemType) {
+      const map = {
+        standard: 0,
+        premium: 0,
+        hat: 2,
+        tote: num("feeTote"),
+        duffel: num("feeDuffel"),
+        jacket: 8,
+        puffy: num("feePuffy"),
+        golfBag: num("feeGolfBag"),
+        saddlePad: num("feeSaddlePad"),
+        customerProvided: 6,
+        otherSpecialty: num("feeOtherSpecialty")
+      };
+      return map[itemType] || 0;
+    }
+
+    function getPlacementMultiplier(location) {
+      const map = {
+        leftChest: 1.0,
+        hatFront: 1.15,
+        hatSide: 1.25,
+        sleeve: 1.15,
+        jacketBack: 1.3,
+        bag: 1.25,
+        specialty: 1.4,
+        highRisk: 1.6
+      };
+      return map[location] || 1.0;
+    }
+
+    function getComplexityMultiplier(complexity) {
+      const map = {
+        simple: 1.0,
+        moderate: 1.15,
+        complex: 1.3,
+        nightmare: 1.6
+      };
+      return map[complexity] || 1.0;
+    }
+
+    function getStitchRate(colorCount) {
+      if (colorCount <= 3) return num("rateFewColors");
+      if (colorCount <= 9) return num("rateMidColors");
+      return num("rateManyColors");
+    }
+
+    function getDTFMarkup(size) {
+      const map = {
+        small: num("dtfMarkupSmall"),
+        medium: num("dtfMarkupMedium"),
+        large: num("dtfMarkupLarge"),
+        oversized: num("dtfMarkupOversized"),
+        specialty: num("dtfMarkupSpecialty")
+      };
+      return (map[size] || 0) / 100;
+    }
+
+    function getDTFLaborEach(qty) {
+      if (qty >= 50) return num("dtfLaborLargeOrder");
+      if (qty >= 25) return num("dtfLaborMediumOrder");
+      return num("dtfLaborSmallOrder");
+    }
+
+    function getBulkDiscountRate(qty) {
+      if (qty >= 100) return num("discount100") / 100;
+      if (qty >= 50) return num("discount50") / 100;
+      if (qty >= 25) return num("discount25") / 100;
+      return 0;
+    }
+
+    function getArtworkFee(type) {
+      const override = num("artworkFeeOverride");
+      if (override > 0) return override;
+
+      const map = {
+        ready: 0,
+        minor: 15,
+        major: 45,
+        redraw: 75
+      };
+      return map[type] || 0;
+    }
+
+    function calculateOLSAdminQuote() {
+      const qty = Math.max(parseInt(val("qty")) || 1, 1);
+      const itemType = val("itemType");
+      const customerProvided = val("customerProvided") === "yes";
+      const useEmbroidery = val("useEmbroidery") === "yes";
+      const useDTF = val("useDTF") === "yes";
+
+      const itemMultiplier = getItemDifficultyMultiplier(itemType);
+      const specialtyFeeEach = getSpecialtyFeeEach(itemType);
+
+      let blankCostEach = customerProvided ? 0 : num("blankCostEach");
+      let blankRetailEach = num("blankRetailOverride") > 0
+        ? num("blankRetailOverride")
+        : blankCostEach * (1 + num("blankMarkup") / 100);
+
+      if (customerProvided) {
+        blankRetailEach = 0;
+      }
+
+      const blankRetailTotal = blankRetailEach * qty;
+      const actualBlankCostTotal = blankCostEach * qty;
+
+      let embroideryRetailEach = 0;
+      let embroideryBaseEach = 0;
+      let stitchRate = 0;
+      let digitizingFee = 0;
+
+      if (useEmbroidery) {
+        const stitchCount = num("stitchCount");
+        const colorCount = num("colorCount");
+        stitchRate = getStitchRate(colorCount);
+
+        embroideryBaseEach = (stitchCount / 1000) * stitchRate;
+        embroideryBaseEach = Math.max(embroideryBaseEach, num("minEmbroidery"));
+
+        embroideryRetailEach =
+          embroideryBaseEach *
+          getPlacementMultiplier(val("embroideryLocation")) *
+          getComplexityMultiplier(val("embroideryComplexity")) *
+          itemMultiplier;
+
+        digitizingFee = val("isReorder") === "yes" ? 0 : num("digitizingFee");
+      }
+
+      const embroideryRetailTotal = embroideryRetailEach * qty;
+
+      let dtfRetailEach = 0;
+      let dtfActualCostEach = 0;
+
+      if (useDTF) {
+        const locations = Math.max(parseInt(val("dtfLocations")) || 1, 1);
+        const transferCost = num("dtfTransferCost");
+        const markup = getDTFMarkup(val("dtfSize"));
+        const dtfLaborEach = getDTFLaborEach(qty);
+
+        dtfActualCostEach = transferCost * locations;
+
+        dtfRetailEach = num("dtfRetailOverride") > 0
+          ? num("dtfRetailOverride")
+          : ((transferCost * (1 + markup)) + dtfLaborEach) * locations;
+
+        dtfRetailEach = dtfRetailEach * itemMultiplier;
+      }
+
+      const dtfRetailTotal = dtfRetailEach * qty;
+      const actualDTFCostTotal = dtfActualCostEach * qty;
+
+      let customerRiskFee = 0;
+      if (customerProvided) {
+        customerRiskFee =
+          (embroideryRetailTotal + dtfRetailTotal + specialtyFeeEach * qty) *
+          (num("customerRiskMarkup") / 100);
+      }
+
+      const specialtyTotal = specialtyFeeEach * qty;
+
+      const embroideryLaborTotal = useEmbroidery ? num("embroideryLaborEach") * qty : 0;
+      const packagingLaborTotal = num("packagingLaborEach") * qty;
+      const artworkFee = getArtworkFee(val("artworkQuality"));
+      const extraSetupFee = num("extraSetupFee");
+      const manualAdjustment = num("manualAdjustment");
+
+      let rushFeeTotal = 0;
+      if (val("rushType") === "rush") {
+        rushFeeTotal = num("rushFee");
+      } else if (val("rushType") === "48hr") {
+        rushFeeTotal = num("rushFee") + num("expedite48Fee");
+      } else if (val("rushType") === "sameDay") {
+        rushFeeTotal = num("rushFee") + num("expedite48Fee") + 100;
+      }
+
+      const discountableSubtotal =
+        blankRetailTotal +
+        embroideryRetailTotal +
+        dtfRetailTotal +
+        specialtyTotal +
+        customerRiskFee;
+
+      const discountRate = getBulkDiscountRate(qty);
+      const discountAmount = discountableSubtotal * discountRate;
+
+      let preTaxSubtotal =
+        discountableSubtotal -
+        discountAmount +
+        embroideryLaborTotal +
+        packagingLaborTotal +
+        digitizingFee +
+        artworkFee +
+        extraSetupFee +
+        rushFeeTotal +
+        manualAdjustment;
+
+      let minimum = 0;
+      if (qty === 1) minimum = num("minOneItem");
+      if (qty >= 2 && qty <= 5) minimum = num("minSmallOrder");
+
+      if (["puffy", "golfBag", "saddlePad", "duffel", "otherSpecialty"].includes(itemType)) {
+        minimum = Math.max(minimum, num("minSpecialty"));
+      }
+
+      const minimumAdjustment = preTaxSubtotal < minimum ? minimum - preTaxSubtotal : 0;
+      preTaxSubtotal += minimumAdjustment;
+
+      const tax = preTaxSubtotal * (num("taxRate") / 100);
+      const finalTotal = preTaxSubtotal + tax;
+      const pricePerItem = finalTotal / qty;
+
+      const actualSupplyCosts =
+        actualBlankCostTotal +
+        actualDTFCostTotal +
+        (useEmbroidery ? num("embroiderySupplyCost") * qty : 0) +
+        (useDTF ? num("dtfSupplyCost") * qty : 0);
+
+      const estimatedLaborCost = num("productionHours") * num("hourlyLaborCost");
+      const estimatedProfit = preTaxSubtotal - actualSupplyCosts - estimatedLaborCost;
+      const margin = preTaxSubtotal > 0 ? estimatedProfit / preTaxSubtotal : 0;
+
+      const rows = [
+        ["Blank Retail Total", blankRetailTotal],
+        ["Embroidery Retail Total", embroideryRetailTotal],
+        ["DTF Retail Total", dtfRetailTotal],
+        ["Specialty Handling Total", specialtyTotal],
+        ["Customer-Supplied Risk Fee", customerRiskFee],
+        ["Bulk Discount", -discountAmount],
+        ["Embroidery Labor", embroideryLaborTotal],
+        ["Packaging Labor", packagingLaborTotal],
+        ["Digitizing Fee", digitizingFee],
+        ["Artwork Fee", artworkFee],
+        ["Extra Setup / Handling", extraSetupFee],
+        ["Rush / Expedited Fees", rushFeeTotal],
+        ["Manual Adjustment", manualAdjustment],
+        ["Minimum Adjustment", minimumAdjustment],
+        ["Pre-Tax Subtotal", preTaxSubtotal],
+        ["Sales Tax", tax],
+        ["Final Customer Total", finalTotal]
+      ];
+
+      document.getElementById("customerQuoteTotal").innerHTML = money(finalTotal);
+      document.getElementById("quotePerItem").innerHTML = money(pricePerItem) + " per item";
+
+      document.getElementById("breakdownTable").innerHTML = buildTable(rows);
+
+      const profitRows = [
+        ["Customer Subtotal Before Tax", preTaxSubtotal],
+        ["Actual Blank Cost", actualBlankCostTotal],
+        ["Actual DTF Transfer Cost", actualDTFCostTotal],
+        ["Estimated Supplies Cost", actualSupplyCosts - actualBlankCostTotal - actualDTFCostTotal],
+        ["Estimated Labor Cost", estimatedLaborCost],
+        ["Estimated Profit", estimatedProfit],
+        ["Estimated Margin", (margin * 100).toFixed(1) + "%"]
+      ];
+
+      document.getElementById("profitTable").innerHTML = buildTable(profitRows, true);
+
+      document.getElementById("marginFlag").innerHTML = buildMarginFlag(margin);
+
+      const summary = buildCustomerSummary({
+        customerName: val("customerName"),
+        qty,
+        itemType,
+        useEmbroidery,
+        useDTF,
+        stitchCount: num("stitchCount"),
+        colorCount: num("colorCount"),
+        dtfSize: val("dtfSize"),
+        rushType: val("rushType"),
+        finalTotal,
+        pricePerItem,
+        discountRate,
+        customerProvided,
+        artworkQuality: val("artworkQuality")
+      });
+
+      document.getElementById("customerSummary").value = summary;
+
+      document.getElementById("warningNotes").innerHTML = buildWarnings({
+        margin,
+        customerProvided,
+        itemType,
+        artworkQuality: val("artworkQuality"),
+        rushType: val("rushType"),
+        embroideryComplexity: val("embroideryComplexity"),
+        minimumAdjustment,
+        discountRate
+      });
+
+      document.getElementById("adminResult").style.display = "block";
+      document.getElementById("adminResult").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function buildTable(rows, profitMode = false) {
+      let html = "<table><tr><th>Line Item</th><th>Amount</th></tr>";
+      rows.forEach(row => {
+        let amount = typeof row[1] === "number" ? money(row[1]) : row[1];
+        html += `<tr><td>${row[0]}</td><td>${amount}</td></tr>`;
+      });
+      html += "</table>";
+      return html;
+    }
+
+    function buildMarginFlag(margin) {
+      const pct = (margin * 100).toFixed(1);
+
+      if (margin >= 0.45) {
+        return `<div class="flag excellent">Excellent margin: ${pct}%</div>`;
+      }
+
+      if (margin >= 0.35) {
+        return `<div class="flag excellent">Good margin: ${pct}%</div>`;
+      }
+
+      if (margin >= 0.25) {
+        return `<div class="flag caution">Caution: margin is ${pct}%. Review before sending.</div>`;
+      }
+
+      return `<div class="flag requote">Requote recommended: margin is only ${pct}%.</div>`;
+    }
+
+    function buildWarnings(data) {
+      let warnings = [];
+
+      if (data.margin < 0.25) {
+        warnings.push("Margin is below 25%. Strongly consider increasing the quote.");
+      }
+
+      if (data.customerProvided) {
+        warnings.push("Customer-supplied item selected. Confirm waiver language and no replacement guarantee.");
+      }
+
+      if (["puffy", "golfBag", "saddlePad", "otherSpecialty"].includes(data.itemType)) {
+        warnings.push("Specialty item selected. Confirm hooping, placement, machine clearance, and production risk.");
+      }
+
+      if (data.artworkQuality === "major" || data.artworkQuality === "redraw") {
+        warnings.push("Artwork may require cleanup or redraw before production.");
+      }
+
+      if (data.rushType !== "standard") {
+        warnings.push("Rush timeline selected. Confirm garment/transfer availability before committing.");
+      }
+
+      if (data.embroideryComplexity === "nightmare") {
+        warnings.push("Embroidery complexity marked as nightmare/manual review. Do not send quote without checking file.");
+      }
+
+      if (data.minimumAdjustment > 0) {
+        warnings.push("Minimum order pricing was applied.");
+      }
+
+      if (data.discountRate > 0) {
+        warnings.push("Bulk discount applied only to product/decorated item subtotal, not rush/setup/tax.");
+      }
+
+      if (!warnings.length) {
+        warnings.push("No major warnings. Quote appears clean.");
+      }
+
+      return "<ul><li>" + warnings.join("</li><li>") + "</li></ul>";
+    }
+
+    function buildCustomerSummary(data) {
+      const itemLabels = {
+        standard: "standard garments",
+        premium: "premium garments",
+        hat: "hats",
+        tote: "canvas/tote bags",
+        duffel: "duffel, boat, or canvas bags",
+        jacket: "jackets/outerwear",
+        puffy: "puffy jackets",
+        golfBag: "golf bags",
+        saddlePad: "saddle pads",
+        customerProvided: "customer-provided items",
+        otherSpecialty: "specialty items"
+      };
+
+      let lines = [];
+
+      lines.push(`Quote Summary${data.customerName ? " for " + data.customerName : ""}`);
+      lines.push("");
+      lines.push(`This quote includes ${data.qty} ${itemLabels[data.itemType] || "items"}.`);
+
+      if (data.useEmbroidery) {
+        lines.push(`Embroidery is included based on an estimated ${data.stitchCount.toLocaleString()} stitches and ${data.colorCount} color(s).`);
+      }
+
+      if (data.useDTF) {
+        lines.push(`DTF/printing is included for ${data.dtfSize} print placement.`);
+      }
+
+      if (data.customerProvided) {
+        lines.push("Customer-provided item handling is included. Please note that Old Line Stitch is not responsible for damage to customer-supplied items during production.");
+      }
+
+      if (data.artworkQuality !== "ready") {
+        lines.push("Artwork preparation or cleanup may be required before production.");
+      }
+
+      if (data.discountRate > 0) {
+        lines.push(`A bulk discount of ${(data.discountRate * 100).toFixed(0)}% has been applied.`);
+      }
+
+      if (data.rushType === "rush") {
+        lines.push("Rush production has been included.");
+      } else if (data.rushType === "48hr") {
+        lines.push("48-hour expedited production has been estimated and must be confirmed before final approval.");
+      } else if (data.rushType === "sameDay") {
+        lines.push("Same-day/emergency production has been estimated and must be confirmed before final approval.");
+      }
+
+      lines.push("");
+      lines.push(`Estimated customer total: ${money(data.finalTotal)}`);
+      lines.push(`Estimated price per item: ${money(data.pricePerItem)}`);
+      lines.push("");
+      lines.push("Final pricing is subject to artwork approval, item availability, production schedule, and final design review.");
+
+      return lines.join("\n");
+    }
+
+    function copyCustomerSummary() {
+      const summary = document.getElementById("customerSummary");
+      summary.select();
+      summary.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      alert("Customer quote summary copied.");
+    }
+
+    window.addEventListener("load", function () {
+      loadOLSAdminSettings();
+
+      const today = new Date().toISOString().split("T")[0];
+      const quoteDate = document.getElementById("quoteDate");
+      if (quoteDate && !quoteDate.value) quoteDate.value = today;
+    });
+  </script>
+</div>
